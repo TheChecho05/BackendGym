@@ -1,7 +1,7 @@
 import Usuario from "../models/usuarios.js";
 import bcryptjs from "bcryptjs"
 import { generarJWT } from '../middleware/validar-jwts.js'
-
+import { sendEmail } from "../middleware/email.js";
 const httpUsuarios = {
     getUsuarios: async (req, res) => {
         const { busqueda } = req.query
@@ -12,6 +12,16 @@ const httpUsuarios = {
                 ]
             }
         )
+        .populate("idsedes")
+        res.json({ usuario })
+    },
+    getUsuariosActivos: async (req, res) => {
+        const usuario = await Usuario.find({estado: 1})
+        .populate("idsedes")
+        res.json({ usuario })
+    },
+    getUsuariosInactivos: async (req, res) => {
+        const usuario = await Usuario.find({estado: 0})
         .populate("idsedes")
         res.json({ usuario })
     },
@@ -85,6 +95,46 @@ const httpUsuarios = {
 
                 msg: "Hable con el WebMaster"
             })
+        }
+    },
+    enviarEmail:async (req, res) => {
+        try {
+            const { correo } = req.body;
+            await sendEmail(correo);
+            res.status(200).json({ success: true });
+        } catch (error) {
+            console.error("Error en el controlador enviarEmail:", error);
+            res.status(500).json({ success: false, error: "Error al enviar el correo" });
+        }
+    },
+    usuarioGetEmail:async (req,res) => {
+        const {correo}=req.params
+        const usuario = await Usuario.findOne({correo})
+        if (!usuario) {
+            res.json({
+                "msg":"No ha encontrado el correo"
+            })
+        }else{
+            res.json({
+                usuario
+            })
+        }
+    },
+    usuarioPutPassword:async(req,res)=>{
+        try {
+            const { correo, contrasena } = req.body;
+            const salt = bcryptjs.genSaltSync(10);
+            const usuario = await Usuario.findOne({ correo: correo});
+    
+            if (!usuario) {
+                return res.status(404).json({ msg: 'Usuario no encontrado' });
+            }
+            usuario.contrasena = bcryptjs.hashSync(contrasena, salt);
+            await usuario.save();
+    
+            return res.status(200).json({ msg: 'Contraseña actualizada correctamente' });
+        } catch (error) {
+            return res.status(500).json({ msg: 'Error interno del servidor', error });
         }
     }
 }

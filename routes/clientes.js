@@ -17,16 +17,21 @@ const router = Router();
 
 router.get("/", [
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
 ],httpClientes.getClientes);
 
 router.get("/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
   check("id", "ID de cliente inválido").isMongoId(),
   check("id").custom(helpersClientes.validarExistaIdCliente),
   validarCampos,
 ], httpClientes.getClientesID);
+
+router.get("/obt/activos",[
+  validarJWT,
+],httpClientes.getClientesActivos);
+router.get("/obt/inactivos",[
+  validarJWT,
+],httpClientes.getClientesInactivos);
 
 router.get('/cumpleanos/fecha', [
   validarJWT,
@@ -73,7 +78,7 @@ router.put("/actualizar/:id", [
 
 router.put("/activar/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
   check("id", "ID de cliente inválido").isMongoId(),
   check("id").custom(helpersClientes.validarExistaIdCliente),
   validarCampos,
@@ -81,7 +86,7 @@ router.put("/activar/:id", [
 
 router.put("/desactivar/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
   check("id", "ID de cliente inválido").isMongoId(),
   check("id").custom(helpersClientes.validarExistaIdCliente),
   validarCampos,

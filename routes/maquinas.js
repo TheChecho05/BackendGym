@@ -14,6 +14,16 @@ router.get("/",[
     validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
 ], httpMaquinas.getMaquinas);
 
+router.get("/obt/activos",[
+    validarJWT,
+    validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  ],httpMaquinas.getMaquinasActivos);
+  
+  router.get("/obt/inactivos",[
+    validarJWT,
+    validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  ],httpMaquinas.getMaquinasInactivos);
+
 router.get("/:id", [
     validarJWT,
     validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
@@ -24,7 +34,7 @@ router.get("/:id", [
 
 router.post("/agregar", [
     validarJWT,
-    validarRol(["ADMINISTRADOR"]),
+    validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
     check("idsedes", "La id de la sede es necesaria").notEmpty(),
     check("idsedes").custom(helpersSede.validarExistaId),
     check("descripcion", "La descripcion es requerida").notEmpty(),
@@ -33,7 +43,7 @@ router.post("/agregar", [
 
 router.put("/actualizar/:id",[
     validarJWT,
-    validarRol(["ADMINISTRADOR"]),
+    validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
     check("id","ID de la sede no valido").isMongoId(),
     check("id").custom(helpersSede.validarExistaId),
     check("descripcion", "La descripcion es requerida").notEmpty(),
@@ -42,7 +52,7 @@ router.put("/actualizar/:id",[
 
 router.put("/activar/:id", [
     validarJWT,
-    validarRol(["ADMINISTRADOR"]),
+    validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
     check("id", "ID de maquina inválido").isMongoId(),
     check("id").custom(helpersMaquinas.validarExistaId),
     validarCampos,
@@ -50,7 +60,7 @@ router.put("/activar/:id", [
 
 router.put("/desactivar/:id", [
     validarJWT,
-    validarRol(["ADMINISTRADOR"]),
+    validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
     check("id", "ID de maquina inválido").isMongoId(),
     check("id").custom(helpersMaquinas.validarExistaId),
     validarCampos,

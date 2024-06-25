@@ -12,6 +12,7 @@ const clienteSchema=new mongoose.Schema({
         fechainicio:{type:Date,default:Date.now},
         peso:{type:String,required:true},
         imc:{type:String,required:true},
+        rango:{type:String},
         brazo:{type:String,required:true},
         pierna:{type:String,required:true},
         cintura:{type:String,required:true},

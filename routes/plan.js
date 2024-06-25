@@ -13,6 +13,16 @@ router.get("/",[
   validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
 ], httpPlanes.getPlanes);
 
+router.get("/obt/activos",[
+  validarJWT,
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+],httpPlanes.getPlanesActivos);
+
+router.get("/obt/inactivos",[
+  validarJWT,
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+],httpPlanes.getPlanesInactivos);
+
 router.get("/:id", [
   validarJWT,
   validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
@@ -31,7 +41,7 @@ router.get("/:id", [
 
 router.post("/agregar", [
   validarJWT,
-  validarRol(["ADMINISTRADOR"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
   check("descripcion", "La descripción es requerida").notEmpty(),
   check("valor", "El valor es requerido ").notEmpty(),
   check("valor", "El valor debe ser un número válido").isNumeric(),
@@ -42,21 +52,21 @@ router.post("/agregar", [
 
 router.put("/actualizar/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
   check("id", "ID de plan inválido").isMongoId(),
   validarCampos,
 ], httpPlanes.putPlan);
 
 router.put("/activar/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
   check("id", "ID de plan inválido").isMongoId(),
   validarCampos,
 ], httpPlanes.activarPlan);
 
 router.put("/desactivar/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
   check("id", "ID de plan inválido").isMongoId(),
   validarCampos,
 ], httpPlanes.desactivarPlan);

@@ -43,7 +43,7 @@ router.post("/agregar", [
 
 router.put("/actualizar/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
   check("id", "ID de venta inválido").isMongoId(),
   check("id").custom(helpersVentas.validarExistaId),
   check("idInventario", "El ID de inventario es requerido").optional().notEmpty(),

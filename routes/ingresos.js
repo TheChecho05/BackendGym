@@ -28,7 +28,7 @@ router.get("/:id",
 router.post("/agregar",
   [
     validarJWT,
-    validarRol(["ADMINISTRADOR"]),
+    validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
     check("idsedes", "ID de sede invalido").isMongoId(),
     check("idcliente", "ID de cliente invalido").isMongoId(),
     check("idsedes").custom(helpersSede.validarExistaId), // Usamos el helper de sede para validar la sede

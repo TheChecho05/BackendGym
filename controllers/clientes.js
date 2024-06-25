@@ -188,7 +188,15 @@ const httpClientes = {
         } catch (error) {
             res.status(500).json({ success: false, error: error.message });
         }
-    }
+    },
+    getClientesActivos: async (req, res) => {
+        const cliente = await Cliente.find({estado: 1})
+        res.json({ cliente })
+    },
+    getClientesInactivos: async (req, res) => {
+        const cliente = await Cliente.find({estado: 0})
+        res.json({ cliente })
+    },
 }
 
 export default httpClientes

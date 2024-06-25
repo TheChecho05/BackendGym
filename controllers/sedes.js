@@ -12,6 +12,14 @@ const httpSedes = {
         )
         res.json({ sede })
     },
+    getSedesActivos: async (req, res) => {
+        const sede = await Sedes.find({estado: 1})
+        res.json({ sede })
+    },
+    getSedesInactivos: async (req, res) => {
+        const sede = await Sedes.find({estado: 0})
+        res.json({ sede })
+    },
     getSedesID: async (req, res) => {
         const {id} = req.params
         const sedes = await Sedes.findById(id)

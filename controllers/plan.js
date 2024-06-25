@@ -10,7 +10,14 @@ const httpPlanes = {
             res.status(500).json({ error: "Error al obtener los planes" });
         }
     },
-
+    getPlanesActivos: async (req, res) => {
+        const planes = await Plan.find({estado: 1})
+        res.json({ planes })
+    },
+    getPlanesInactivos: async (req, res) => {
+        const planes = await Plan.find({estado: 0})
+        res.json({ planes })
+    }, 
     // Obtener un plan por su ID
     getPlanByID: async (req, res) => {
         try {

@@ -10,8 +10,15 @@ const router = Router();
 
 router.get("/",[
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
 ], httpSedes.getSedes);
+
+router.get("/obt/activos",[
+  validarJWT,
+],httpSedes.getSedesActivos);
+
+router.get("/obt/inactivos",[
+  validarJWT,
+],httpSedes.getSedesInactivos);
 
 router.get("/:id", [
   validarJWT,
@@ -42,7 +49,7 @@ router.post("/agregar", [
 
 router.put("/actualizar/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
   check("id", "ID de sede invalido").isMongoId(),
   check("nombre", "El nombre es requerido").optional().notEmpty(),
   check("direccion", "La direccion es requerida").optional().notEmpty(),
@@ -62,7 +69,7 @@ router.put("/actualizar/:id", [
 
 router.put("/activar/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
   check("id", "ID de sede invalido").isMongoId(),
   validarCampos,
   async (req, res, next) => {
@@ -78,7 +85,7 @@ router.put("/activar/:id", [
 
 router.put("/desactivar/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
   check("id", "ID de sede inválido").isMongoId(),
   validarCampos,
   async (req, res, next) => {

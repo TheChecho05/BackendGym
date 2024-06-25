@@ -12,14 +12,20 @@ const router = Router();
 
 router.get("/",[
   validarJWT,
-  validarRol(["ADMINISTRADOR",]),
 ],httpUsuarios.getUsuarios);
+
+router.get("/obt/activos",[
+  validarJWT,
+],httpUsuarios.getUsuariosActivos);
+
+router.get("/obt/inactivos",[
+  validarJWT,
+],httpUsuarios.getUsuariosInactivos);
 
 router.get("/:id",[
   validarJWT,
-  validarRol(["ADMINISTRADOR",]),
 ], httpUsuarios.getUsuariosID);
-//recepcionista, administrador, entrenador
+
 router.post("/agregar",
   [
   validarJWT,
@@ -78,5 +84,11 @@ router.post("/login",
     check("contrasena", "La contrasena es requerida").optional().notEmpty(),
     validarCampos
   ],httpUsuarios.login)
+
+router.post("/contrasena/recuperar",httpUsuarios.enviarEmail)
+
+router.get("/obtener/:correo",httpUsuarios.usuarioGetEmail)
+
+router.put("/cambiar/contrasena",httpUsuarios.usuarioPutPassword)
 
 export default router;

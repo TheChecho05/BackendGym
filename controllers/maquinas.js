@@ -7,6 +7,16 @@ const httpMaquinas = {
         .populate("idsedes")
         res.json({ maquina })
     },
+    getMaquinasActivos: async (req, res) => {
+        const maquina = await Maquinas.find({estado: 1})
+        .populate("idsedes")
+        res.json({ maquina })
+    },
+    getMaquinasInactivos: async (req, res) => {
+        const maquina = await Maquinas.find({estado: 0})
+        .populate("idsedes")
+        res.json({ maquina })
+    },
     getMaquinasID: async (req, res) => {
         const {id} = req.params
         const maquinas = await Maquinas.findById(id)
