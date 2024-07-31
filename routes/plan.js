@@ -10,22 +10,22 @@ const router = Router();
 
 router.get("/",[
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
 ], httpPlanes.getPlanes);
 
 router.get("/obt/activos",[
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
 ],httpPlanes.getPlanesActivos);
 
 router.get("/obt/inactivos",[
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
 ],httpPlanes.getPlanesInactivos);
 
 router.get("/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
   check("id", "ID de plan inválido").isMongoId(),
   validarCampos,
   async (req, res, next) => {
@@ -41,7 +41,7 @@ router.get("/:id", [
 
 router.post("/agregar", [
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
   check("descripcion", "La descripción es requerida").notEmpty(),
   check("valor", "El valor es requerido ").notEmpty(),
   check("valor", "El valor debe ser un número válido").isNumeric(),
@@ -52,21 +52,21 @@ router.post("/agregar", [
 
 router.put("/actualizar/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
   check("id", "ID de plan inválido").isMongoId(),
   validarCampos,
 ], httpPlanes.putPlan);
 
 router.put("/activar/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
   check("id", "ID de plan inválido").isMongoId(),
   validarCampos,
 ], httpPlanes.activarPlan);
 
 router.put("/desactivar/:id", [
   validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
   check("id", "ID de plan inválido").isMongoId(),
   validarCampos,
 ], httpPlanes.desactivarPlan);

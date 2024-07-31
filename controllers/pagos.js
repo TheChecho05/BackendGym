@@ -1,9 +1,9 @@
     import Pagos from "../models/pagos.js";
-    import Plan from "../models/plan.js";
+   
+    
     import mongoose from "mongoose";
     
 const httpPagos = {
-    // Obtener todos los pagos
     getPagos: async (req, res) => {
         try {
             const pagos = await Pagos.find()
@@ -14,8 +14,6 @@ const httpPagos = {
             res.status(500).json({ error: "Error al obtener los pagos" });
         }
     },
-
-    // Obtener un pago por su ID
     getPagoByID: async (req, res) => {
         try {
             const { id } = req.params;
@@ -28,31 +26,16 @@ const httpPagos = {
             res.status(500).json({ error: "Error al obtener el pago" });
         }
     },
-
-    // Crear un nuevo pago
     postPago: async (req, res) => {
         try {
             const { idCliente, idPlan } = req.body;
-
-            // Obtener el valor del plan
-            const plan = await Plan.findById(idPlan);
-            if (!plan) {
-                return res.status(404).json({ error: "Plan no encontrado" });
-            }
-
-            // Crear el nuevo pago con valor inicial en 0
-            const nuevoPago = new Pagos({ idCliente, idPlan, valor: 0 });
-            
-            // Sumar el valor del plan al valor del pago
-            nuevoPago.valor += plan.valor;
-
-            await nuevoPago.save();
-            res.status(201).json({ nuevoPago });
+            const pago = new Pagos({ idCliente, idPlan});
+            await pago.save();
+            res.status(201).json({ pago });
         } catch (error) {
             res.status(400).json({ error: "No se pudo crear el pago" });
         }
     },
-
     // Actualizar un pago existente
     putPago: async (req, res) => {
         try {

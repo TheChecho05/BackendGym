@@ -24,7 +24,6 @@ router.get("/:id",
   ],
   httpPagos.getPagoByID
 );
-
 router.post("/agregar",
   [
     validarJWT,

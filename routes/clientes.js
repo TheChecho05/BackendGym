@@ -1,15 +1,10 @@
 import { Router } from "express";
 import { check } from 'express-validator';
 
-//estos son los basicos para peticiones
 import  {validarCampos } from '../middleware/validar-campos.js';
 import helpersClientes from '../helpers/clientes.js';
 import httpClientes from "../controllers/clientes.js";
-
-//si se necesitau un id externo
 import helpersPlan from "../helpers/plan.js";
-
-//Estos son de roles y tokens
 import {validarJWT } from '../middleware/validar-jwts.js'
 import { validarRol } from "../middleware/rolesPermisos.js";
 
@@ -17,10 +12,12 @@ const router = Router();
 
 router.get("/", [
   validarJWT,
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
 ],httpClientes.getClientes);
 
 router.get("/:id", [
   validarJWT,
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
   check("id", "ID de cliente inválido").isMongoId(),
   check("id").custom(helpersClientes.validarExistaIdCliente),
   validarCampos,
@@ -28,9 +25,12 @@ router.get("/:id", [
 
 router.get("/obt/activos",[
   validarJWT,
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
 ],httpClientes.getClientesActivos);
+
 router.get("/obt/inactivos",[
   validarJWT,
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
 ],httpClientes.getClientesInactivos);
 
 router.get('/cumpleanos/fecha', [

@@ -13,7 +13,7 @@ export const validarRol = ( rol ) =>{
                 return next();  
             } else {
                 return res.status(401).json({
-                message: "No tienes los suficientes permisos"
+                message: "No tienes los suficientes permisos xd jajajaja"
                 }); 
             }
         }

@@ -8,18 +8,19 @@ import { validarRol } from "../middleware/rolesPermisos.js";
 
 const router = Router();
 
-// const rolesPermitidos = ['1', '2'];
-
 router.get("/",[
   validarJWT,
+  validarRol(["ADMINISTRADOR"]),
 ],httpUsuarios.getUsuarios);
 
 router.get("/obt/activos",[
   validarJWT,
+  validarRol(["ADMINISTRADOR"]),
 ],httpUsuarios.getUsuariosActivos);
 
 router.get("/obt/inactivos",[
   validarJWT,
+  validarRol(["ADMINISTRADOR"]),
 ],httpUsuarios.getUsuariosInactivos);
 
 router.get("/:id",[

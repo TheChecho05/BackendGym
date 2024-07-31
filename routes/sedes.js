@@ -10,14 +10,17 @@ const router = Router();
 
 router.get("/",[
   validarJWT,
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
 ], httpSedes.getSedes);
 
 router.get("/obt/activos",[
   validarJWT,
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
 ],httpSedes.getSedesActivos);
 
 router.get("/obt/inactivos",[
   validarJWT,
+  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
 ],httpSedes.getSedesInactivos);
 
 router.get("/:id", [
