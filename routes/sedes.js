@@ -14,8 +14,8 @@ router.get("/",[
 ], httpSedes.getSedes);
 
 router.get("/obt/activos",[
-  validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
+  // validarJWT,
+  // validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
 ],httpSedes.getSedesActivos);
 
 router.get("/obt/inactivos",[

@@ -6,7 +6,7 @@ const clienteSchema=new mongoose.Schema({
     fechaNacimiento:{type:Date},
     direccion:{type:String,required:true},
     tipodocumento:{type:String,required:true,minlenght:4},
-    numdocumento:{type:String,required:true,minlenght:7,maxlenght:10},
+    numdocumento:{type:String,unique:true,minlenght:7,maxlenght:10},
     foto:{type:String,required:true},
     seguimiento:[{
         fechainicio:{type:Date,default:Date.now},

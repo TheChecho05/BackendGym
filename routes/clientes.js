@@ -16,16 +16,16 @@ router.get("/", [
 ],httpClientes.getClientes);
 
 router.get("/:id", [
-  validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
+  // validarJWT,
+  // validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
   check("id", "ID de cliente inválido").isMongoId(),
   check("id").custom(helpersClientes.validarExistaIdCliente),
   validarCampos,
 ], httpClientes.getClientesID);
 
 router.get("/obt/activos",[
-  validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
+  // validarJWT,
+  // validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
 ],httpClientes.getClientesActivos);
 
 router.get("/obt/inactivos",[
@@ -39,10 +39,7 @@ router.get('/cumpleanos/fecha', [
   check('fechaNacimiento', 'La fecha de nacimiento es requerida').notEmpty(),
 httpClientes.listarClientesPorFechaNacimiento]);
 
-router.get('/traer/total',[
-  validarJWT,
-  validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
-], httpClientes.validarIngresoTotalClientes);
+
 
 router.get('/seguimientos/:id', httpClientes.getSeguimientos);
 
@@ -56,6 +53,7 @@ router.post("/agregar", [
   check("tipodocumento", "El tipo de documento debe tener al menos 4 caracteres").isLength({ min: 4 }),
   check("numdocumento", "El numero de documento es requerido").notEmpty(),
   check("numdocumento", "El numero de documento debe tener entre 7 y 10 caracteres").isLength({ min: 7, max: 10 }),
+  check("numdocumento").custom(helpersClientes.validarDocumentoUnico),
   check("idplan", "Se necesita una mongo ID").custom(helpersPlan.validarExistaIdPlan),
   check("foto", "La foto es requerida").notEmpty(),
   check("fechaNacimiento","La fecha es requerida").notEmpty(),
@@ -73,6 +71,7 @@ router.put("/actualizar/:id", [
   validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
   check("id", "ID de cliente inválido").isMongoId(),
   check("id").custom(helpersClientes.validarExistaIdCliente),
+  check("numdocumento").custom(helpersClientes.validarDocumentoUnico), 
   validarCampos,
 ], httpClientes.putClientes);
 
@@ -101,5 +100,8 @@ router.put('/act/seg/:id',[
   validarJWT,
   validarRol(["ADMINISTRADOR","RECEPCIONISTA","ENTRENADOR"]),
 ],httpClientes.putClienteSeguimiento);
+
+router.get("/obt/doc/:numdocumento", [
+],httpClientes.getClientePorDocumento);
 
 export default router;

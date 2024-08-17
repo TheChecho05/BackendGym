@@ -12,6 +12,7 @@ import plan from "./routes/plan.js"
 import sedes from "./routes/sedes.js"
 import Usuario from "./routes/usuarios.js"
 import ventas from "./routes/ventas.js"
+import proveedores from "./routes/proveedores.js"
 import cors from "cors"
 
 const app = express()
@@ -28,7 +29,7 @@ app.use("/api/plan",plan)
 app.use("/api/sedes",sedes)
 app.use("/api/usuarios",Usuario)
 app.use("/api/ventas",ventas)
-
+app.use("/api/proveedores",proveedores)
 
 app.listen(process.env.PORT,()=>{
     console.log(`Servidor escuchando en el puerto ${process.env.PORT}`);

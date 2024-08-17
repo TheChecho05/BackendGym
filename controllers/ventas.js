@@ -71,16 +71,42 @@ const httpVentas = {
     },
 
     // Actualizar una venta existente
-    putVenta: async (req, res) => {
+    putVentas: async (req, res) => {
+        const { id } = req.params;
         try {
-            const { id } = req.params;
-            const { idInventario, cantidad, valorUnitario, total } = req.body;
-            const ventaActualizada = await Venta.findByIdAndUpdate(id, { idInventario, cantidad, valorUnitario, total }, { new: true });
-            res.json({ ventaActualizada });
+            const { valorUnitario, cantidad } = req.body;
+            const ventaExistente = await Venta.findById(id)
+                .populate("idInventario");
+    
+            if (!ventaExistente) {
+                return res.status(404).json({ error: "Venta no encontrada" });
+            }
+    
+            const productoInventario = ventaExistente.idInventario;
+            const cantidadAnterior = ventaExistente.cantidad;
+            const diferenciaCantidad = cantidad - cantidadAnterior;
+    
+            const resultado = productoInventario.cantidad - diferenciaCantidad;
+    
+            if (resultado < 0) {
+                return res.status(400).json({ message: `El producto ${productoInventario.descripcion} no tiene suficiente stock` });
+            }
+    
+            await Venta.findByIdAndUpdate(id, {
+                idInventario: productoInventario._id,
+                valorUnitario,
+                cantidad,
+                total: valorUnitario * cantidad
+            });
+    
+            await Inventario.findByIdAndUpdate(productoInventario._id, { cantidad: resultado });
+    
+            res.json({ message: "Edición exitosa" });
         } catch (error) {
-            res.status(400).json({ error: "No se pudo actualizar la venta" });
+            res.status(400).json({ err: "No se pudo editar la venta" });
         }
     },
+    
 
     // Obtener el total de las ventas realizadas dentro de un rango de fechas dado
     getTotalVentasEntreFechas: async (req, res) => {

@@ -197,6 +197,19 @@ const httpClientes = {
         const cliente = await Cliente.find({estado: 0})
         res.json({ cliente })
     },
+    getClientePorDocumento: async (req, res) => {
+        const { numdocumento } = req.params;
+        try {
+            const cliente = await Cliente.findOne({ numdocumento });
+            if (!cliente) {
+                return res.status(404).json({ message: "Cliente no encontrado" });
+            }
+            res.json({ cliente });
+        } catch (error) {
+            console.error("Error al obtener cliente por documento:", error);
+            res.status(500).json({ message: "Error interno del servidor" });
+        }
+    },
 }
 
 export default httpClientes

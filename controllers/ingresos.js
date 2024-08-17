@@ -1,3 +1,4 @@
+import Clientes from "../models/clientes.js";
 import Ingreso from "../models/ingresos.js";
 
 const httpIngresos = {
@@ -23,8 +24,24 @@ const httpIngresos = {
             console.log(error);
             res.status(400).json({ err: "No se pudo crear el registro" })
         }
-
+    },
+    postIngresosClientes: async (req, res) => {
+        try {
+            const { idsedes, numdocumento } = req.body;
+            const cliente = await Clientes.findOne({ numdocumento, estado: 1 });
+            
+            if (cliente) {
+                const ingreso = new Ingreso({ idsedes, idcliente: cliente._id });
+                await ingreso.save();
+                return res.json({ message: "Ingreso guardado satisfactoriamente" });
+            } 
+            res.status(202).json({ message: "No se ha encontrado ese documento" });
+        } catch (error) {
+            console.error(error);
+            res.status(400).json({ err: "No se pudo crear el registro" });
+        }
     }
+    
     
 }
 

@@ -25,7 +25,7 @@ router.post("/agregar", [
   validarJWT,
   validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
   check("idInventario", "El ID de inventario es requerido").notEmpty(),
-  check("idInventario", "El ID de inventario debe ser un ID válido de MongoDB").isMongoId(),
+  check("idInventario", "El ID de inventario debe ser un ID válido de MongoDB xd").isMongoId(),
   check("cantidad", "La cantidad es requerida").notEmpty(),
   check("valorUnitario", "El valor unitario es requerido").notEmpty(),
   check("valorUnitario", "El valor unitario debe ser un número válido").isNumeric(),
@@ -52,7 +52,7 @@ router.put("/actualizar/:id", [
   check("valorUnitario", "El valor unitario es requerido").optional().notEmpty(),
   check("valorUnitario", "El valor unitario debe ser un número válido").optional().isNumeric(),
   validarCampos,
-], httpVenta.putVenta);
+], httpVenta.putVentas);
 
 
 router.get("/traer/ventasfechas", [

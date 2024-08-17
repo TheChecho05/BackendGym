@@ -42,7 +42,7 @@ router.post("/agregar", [
 ], httpMaquinas.postMaquinas)
 
 router.put("/actualizar/:id",[
-    validarJWT,
+    validarJWT, 
     validarRol(["ADMINISTRADOR","RECEPCIONISTA"]),
     check("id","ID de la sede no valido").isMongoId(),
     check("id").custom(helpersSede.validarExistaId),
